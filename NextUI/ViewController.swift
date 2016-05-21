@@ -45,7 +45,8 @@ class ViewController: CATableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-                
+        
+        //we could replace all (important) table view delegates with blocks (or selectors) -> ala react native components? but maybe thats too much 
         setTableView(200, tableViewCell: RealEstateTableViewCell.self, numberOfRows: 1000, styles: [styles])
     }
     
