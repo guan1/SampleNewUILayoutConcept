@@ -32,7 +32,6 @@ class ViewController: UIViewController {
     var styles : Styles = [
         RealEstateStyles.Container.rawValue: [
             .BackgroundColor:UIColor.redColor(),
-            .Size: CGSizeMake(400, 700),
             .FlexDirection: Direction.Row,
             .FlexChildAlignment: ChildAlignment.Center,
         ],
@@ -62,13 +61,19 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         self.view.translatesAutoresizingMaskIntoConstraints = false
         
-        add(
+        set(
             UIView(style: RealEstateStyles.Container.rawValue, children: [
                 UIScrollView(style: RealEstateStyles.ScrollView.rawValue, children: [
                     UILabel(style: RealEstateStyles.Title.rawValue, title: "Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text"),
                     UIView(style: RealEstateStyles.Separator.rawValue, height: 1),
                     UILabel(styles: [RealEstateStyles.Description.rawValue, Base.DescriptionBase.rawValue], title: "Description Description Description Description Description Description Description Description Description Description Description Description Description")
-                    ])
-                ]), styles: [styles, baseStyles])
+                ])
+            ]))
+    }
+    
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        
+        applyLayout([styles, baseStyles])
     }
 }

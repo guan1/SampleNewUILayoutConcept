@@ -104,7 +104,9 @@ extension UIViewController {
         
         if style[StyleTypes.Size] != nil {
             size = style[StyleTypes.Size] as! CGSize
-        } else {
+        } else if v.frame != CGRectZero {
+           size = v.frame.size
+        }else {
            size = CGSize(width: Node.Undefined, height: Node.Undefined)
            /* v.sizeToFit()
             size = v.frame.size
@@ -179,14 +181,18 @@ extension UIViewController {
     }
     
     
-    func add(childView: UIView, styles: [Styles]) {
-        view.addSubview(childView)
-        
-        let node = createNode(childView, styles:styles)
+    func set(childView: UIView) {
+        self.view = childView
+    }
+    
+    func applyLayout(styles: [Styles]) {
+        self.view.frame = self.view.window!.frame //default behaviour: root view pins to window. Therefor applyLayout has to be called in viewWillLayoutSubviews ... and not in viewDidLoad
+
+        let node = createNode(self.view, styles:styles)
         
         let layout = node!.layout()
         print(layout)
-        layout.apply(childView)
+        layout.apply(view)
     }
     
 }
