@@ -11,6 +11,10 @@ import UIKit
 
 class ViewController: UIViewController {
     
+    enum Base : String {
+        case DescriptionBase = "DescriptionBase"
+    }
+    
     enum RealEstateStyles : String {
         case Container = "Container"
         case ScrollView = "ScrollView"
@@ -19,7 +23,13 @@ class ViewController: UIViewController {
         case Separator = "Separator"
     }
     
-    let styles : Styles = [
+    let baseStyles : Styles = [
+        Base.DescriptionBase.rawValue: [
+        .TextColor:UIColor.whiteColor(),
+        ]
+    ]
+    
+    var styles : Styles = [
         RealEstateStyles.Container.rawValue: [
             .BackgroundColor:UIColor.redColor(),
             .Size: CGSizeMake(400, 700),
@@ -38,7 +48,6 @@ class ViewController: UIViewController {
             .Multiline: true,
         ],
         RealEstateStyles.Description.rawValue: [
-            .TextColor:UIColor.whiteColor(),
             .Flex: 0,
             .Height: 50
             
@@ -58,8 +67,8 @@ class ViewController: UIViewController {
                 UIScrollView(style: RealEstateStyles.ScrollView.rawValue, children: [
                     UILabel(style: RealEstateStyles.Title.rawValue, title: "Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text"),
                     UIView(style: RealEstateStyles.Separator.rawValue, height: 1),
-                    UILabel(style: RealEstateStyles.Description.rawValue, title: "Description Description Description Description Description Description Description Description Description Description Description Description Description")
+                    UILabel(styles: [RealEstateStyles.Description.rawValue, Base.DescriptionBase.rawValue], title: "Description Description Description Description Description Description Description Description Description Description Description Description Description")
                     ])
-                ]), styles: styles)
+                ]), styles: [styles, baseStyles])
     }
 }

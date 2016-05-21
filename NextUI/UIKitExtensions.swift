@@ -34,7 +34,7 @@ class StylesCreator {
 }
 
 extension UIViewController {
-    func createNode(v: UIView, styles: Styles) -> Node? {
+    func createNode(v: UIView, styles: [Styles]) -> Node? {
         var children : [Node] = []
         
         for var vv in v.getSubviews() {
@@ -53,10 +53,18 @@ extension UIViewController {
         }
         var style : Style = Style()
        
+        var mergedStyles = Styles()
+        
+        for var stylesStyle in styles {
+            for key in stylesStyle.keys {
+                mergedStyles[key] = stylesStyle[key]
+            }
+        }
+        
         
         for var ss in s {
             //multiple styles per UIView element are possible. Order?!?
-            var oneStyle = styles[ss] as! Style!
+            var oneStyle = mergedStyles[ss] as! Style!
             
             
             for key in oneStyle.keys {
@@ -171,7 +179,7 @@ extension UIViewController {
     }
     
     
-    func add(childView: UIView, styles: Styles) {
+    func add(childView: UIView, styles: [Styles]) {
         view.addSubview(childView)
         
         let node = createNode(childView, styles:styles)
