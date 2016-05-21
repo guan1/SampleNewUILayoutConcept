@@ -200,22 +200,15 @@ extension UIScrollView {
     
 }
 
-extension UIImage {
-    var style: [String]! {
-        get {
-            return objc_getAssociatedObject(self, &xoAssociationKey1) as? [String]
-        }
-        set(newValue) {
-            objc_setAssociatedObject(self, &xoAssociationKey1, newValue, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN)
-        }
-    }
-    
+extension UIImageView {
     convenience init(style style: String, source: String)
     {
         let url = NSURL(string: source)
         let data = NSData(contentsOfURL: url!) //make sure your image in this url does exist, otherwise unwrap in a if let check
-        self.init(data: data!)!
+        let image = UIImage(data: data!)
+        self.init(image: image)
         self.style = [style]
+        self.contentMode = UIViewContentMode.ScaleAspectFit
     }
 }
 
