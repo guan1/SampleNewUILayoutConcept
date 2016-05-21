@@ -195,6 +195,28 @@ extension UIViewController {
         layout.apply(view)
     }
     
+    func add(parentView: UIView, childView: UIView) {
+        parentView.addSubview(childView)
+        
+        childView.frame.size = parentView.frame.size
+        
+        //let node = createNode(childView, styles:styles)
+        
+        //let layout = node!.layout()
+      //  print(layout)
+        //layout.apply(childView)
+    }
+    
+    func applyLayout(cell: UITableViewCell, styles: [Styles]) {
+        cell.contentView.subviews.first!.frame = cell.contentView.frame //pin our container to contentView
+        
+        let node = createNode(cell.contentView.subviews.first!, styles:styles)
+        
+        let layout = node!.layout()
+        print(layout)
+        layout.apply(cell.contentView.subviews.first!)
+    }
+    
 }
 extension UIScrollView {
     
@@ -252,6 +274,18 @@ extension UIView {
         
         return subviews
     }
+    
+    func add(parentView: UIView, childView: UIView) {
+        parentView.addSubview(childView)
+        
+        childView.frame.size = parentView.frame.size
+        
+        //let node = createNode(childView, styles:styles)
+        
+        //let layout = node!.layout()
+        //  print(layout)
+        //layout.apply(childView)
+    }
 }
 
 extension UILabel {
@@ -261,6 +295,15 @@ extension UILabel {
         self.text = title
         self.style = [style]
     }
+    
+    convenience init(style style: String, title: String, inout ref: UILabel)
+    {
+        self.init()
+        self.text = title
+        self.style = [style]
+        ref = self
+    }
+    
     convenience init(styles styles: [String], title: String)
     {
         self.init()

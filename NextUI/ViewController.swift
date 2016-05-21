@@ -9,78 +9,87 @@
 
 import UIKit
 
-class ViewController: UIViewController {
-    
-    enum Base : String {
-        case DescriptionBase = "DescriptionBase"
-    }
+class ViewController: CATableViewController {
     
     enum RealEstateStyles : String {
         case Container = "Container"
-        case ScrollView = "ScrollView"
         case Title = "Title"
         case Description = "Description"
-        case Separator = "Separator"
         case Image = "Image"
     }
-    
-    let baseStyles : Styles = [
-        Base.DescriptionBase.rawValue: [
-        .TextColor:UIColor.whiteColor(),
-        ]
-    ]
-    
+        
     var styles : Styles = [
         RealEstateStyles.Container.rawValue: [
             .BackgroundColor:UIColor.redColor(),
-            .FlexDirection: Direction.Row,
-            .FlexChildAlignment: ChildAlignment.Center,
-        ],
-        RealEstateStyles.ScrollView.rawValue: [
-            .BackgroundColor:UIColor.greenColor(),
             .FlexDirection: Direction.Column,
             .FlexChildAlignment: ChildAlignment.Stretch,
             .Flex: 1
         ],
         RealEstateStyles.Title.rawValue: [
             .TextColor:UIColor.blueColor(),
-            .Flex: 0,
-            .Multiline: true,
+            .Flex: 1,
+            .Multiline: false,
         ],
         RealEstateStyles.Description.rawValue: [
-            .Flex: 0,
-            .Height: 50
+            .Flex: 1,
+            .Height: 50,
+            .TextColor: UIColor.whiteColor()
             
         ],
         RealEstateStyles.Image.rawValue: [
-            .Flex: 0,
+            .Flex: 1,
             .Height: 200
             
         ],
-        RealEstateStyles.Separator.rawValue: [
-            .BackgroundColor:UIColor.yellowColor(),
-            .Height:1,
-        ],
         ]
     
-     override func viewDidLoad() {
+    override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.translatesAutoresizingMaskIntoConstraints = false
-        
-        set(
-            UIView(style: RealEstateStyles.Container.rawValue, children: [
-                UIScrollView(style: RealEstateStyles.ScrollView.rawValue, children: [
-                    UIImageView(style: RealEstateStyles.Image.rawValue, source: "https://upload.wikimedia.org/wikipedia/en/a/aa/Bart_Simpson_200px.png"),
-                    UILabel(style: RealEstateStyles.Title.rawValue, title: "Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text"),
-                    UIView(style: RealEstateStyles.Separator.rawValue, height: 1),
-                    UILabel(styles: [RealEstateStyles.Description.rawValue, Base.DescriptionBase.rawValue], title: "Description Description Description Description Description Description Description Description Description Description Description Description Description")
-                ])
-            ]))
+                
+        setTableView(200, tableViewCell: RealEstateTableViewCell.self, numberOfRows: 1000, styles: [styles])
     }
     
-    override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
+    override func loadRowData(indexPath: NSIndexPath) -> Any? {
+        return indexPath.row
+    }
+    
+   
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        self.navigationController?.pushViewController(DetailViewController(), animated: true)
+    }
+    
+    class RealEstateTableViewCell : UITableViewCell, CATableViewCell {
+        var realEstateImageView : UIImageView!
+        var realEstateTitleLabel: UILabel?
+        var realEstateDescriptionLabel: UILabel?
         
-        applyLayout([styles, baseStyles])
+        override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+            super.init(style: style, reuseIdentifier: reuseIdentifier)
+            
+            //TODO: something better for binding? (see Mapper in Bauradar?)
+            realEstateTitleLabel = UILabel()
+            realEstateDescriptionLabel = UILabel()
+            
+            
+            add(self.contentView,
+                childView: UIView(style: RealEstateStyles.Container.rawValue, children: [
+                    UIImageView(style: RealEstateStyles.Image.rawValue, source: "https://upload.wikimedia.org/wikipedia/en/a/aa/Bart_Simpson_200px.png"),
+                    UILabel(style: RealEstateStyles.Title.rawValue, title: "Text ", ref: &realEstateTitleLabel!),
+                    UILabel(style: RealEstateStyles.Description.rawValue, title: "Description ", ref: &realEstateDescriptionLabel!)
+                    ]))
+        }
+        
+        required init?(coder aDecoder: NSCoder) {
+            fatalError("init(coder:) has not been implemented")
+        }
+        
+        func renderView(anyObject: Any?) {
+            let realEstate = anyObject!
+            realEstateTitleLabel!.text! = "Text \(realEstate)"
+            realEstateDescriptionLabel!.text! = "Description \(realEstate)"
+        }
+        
+        
+        
     }
 }

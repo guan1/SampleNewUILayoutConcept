@@ -9,18 +9,35 @@
 
 import UIKit
 
+enum Base : String {
+    case DescriptionBase = "DescriptionBase"
+}
+
+let baseStyles : Styles = [
+    Base.DescriptionBase.rawValue: [
+        .TextColor:UIColor.whiteColor(),
+    ]
+]
+
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     var window: UIWindow?
+    var navController : UINavigationController!
 
 
 
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
     // Override point for customization after application launch.
+        
+        window = UIWindow(frame: UIScreen.mainScreen().bounds)
+        navController = UINavigationController(rootViewController: ViewController(style: UITableViewStyle.Plain))
+        self.window?.rootViewController = navController
+        window?.makeKeyAndVisible()
+
     return true
     }
 
