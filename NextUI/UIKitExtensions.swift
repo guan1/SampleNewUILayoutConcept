@@ -187,12 +187,15 @@ extension UIViewController {
         self.view = childView
     }
     
+    func setAL(childView: UIView) {
+        self.view.addSubview(childView)
+    }
+    
     func apply(vv: UIView, styles: [Styles], constraintViews: [String : AnyObject]) {
-        if vv != self.view {
+        if vv != self.view.subviews.first {
             vv.translatesAutoresizingMaskIntoConstraints = false
         } else {
-            //top view
-            vv.translatesAutoresizingMaskIntoConstraints = true
+            vv.translatesAutoresizingMaskIntoConstraints = false
         }
         var style : Style = Style()
         
@@ -204,56 +207,58 @@ extension UIViewController {
             }
         }
         
-        
-        for var ss in vv.style {
-            //multiple styles per UIView element are possible. Order?!?
-            var oneStyle = mergedStyles[ss] as! Style!
-            
-            
-            for key in oneStyle.keys {
-                style[key] = oneStyle[key]
-            }
-            //var style : Style = styles[s.first!]!
-        }
-        
-        let bcolor = style[StyleTypes.BackgroundColor] as? UIColor
-        if let bcolor = bcolor {
-            vv.backgroundColor = bcolor
-        } else {
-            vv.backgroundColor = UIColor.clearColor()
-        }
-        
-        var multiline = false
-        if vv.isKindOfClass(UILabel.self) {
-            let l = vv as! UILabel
-            l.textColor = style[StyleTypes.TextColor] as! UIColor
-            
-            if let numberOfLines = style[StyleTypes.NumberOfLines] {
-                l.numberOfLines = numberOfLines as! Int
-            }
-            
-            if let multiline = style[StyleTypes.Multiline] as? Bool {
-                l.numberOfLines = multiline == true ? 0 : 1
-            }
-            
-            if l.numberOfLines == 0 {
-                multiline = true
-            }
-        }
-        
-        if style[StyleTypes.ALConstraint] != nil {
-            let constraintFormats = style[StyleTypes.ALConstraint] as! [String]
-            
-            var allConstraints = [NSLayoutConstraint]()
-            for var c in constraintFormats {
-                let constraints = NSLayoutConstraint.constraintsWithVisualFormat(c, options:.DirectionLeadingToTrailing , metrics: nil, views: constraintViews)
+        if vv.style != nil {
+            for var ss in vv.style {
+                //multiple styles per UIView element are possible. Order?!?
+                var oneStyle = mergedStyles[ss] as! Style!
                 
-                allConstraints += constraints
                 
+                for key in oneStyle.keys {
+                    style[key] = oneStyle[key]
+                }
+                //var style : Style = styles[s.first!]!
             }
             
-            NSLayoutConstraint.activateConstraints(allConstraints)
+            let bcolor = style[StyleTypes.BackgroundColor] as? UIColor
+            if let bcolor = bcolor {
+                vv.backgroundColor = bcolor
+            } else {
+                vv.backgroundColor = UIColor.clearColor()
+            }
             
+            var multiline = false
+            if vv.isKindOfClass(UILabel.self) {
+                let l = vv as! UILabel
+                l.textColor = style[StyleTypes.TextColor] as! UIColor
+                
+                if let numberOfLines = style[StyleTypes.NumberOfLines] {
+                    l.numberOfLines = numberOfLines as! Int
+                }
+                
+                if let multiline = style[StyleTypes.Multiline] as? Bool {
+                    l.numberOfLines = multiline == true ? 0 : 1
+                }
+                
+                if l.numberOfLines == 0 {
+                    multiline = true
+                }
+            }
+            
+            if style[StyleTypes.ALConstraint] != nil {
+                let constraintFormats = style[StyleTypes.ALConstraint] as! [String]
+                
+                var allConstraints = [NSLayoutConstraint]()
+                for var c in constraintFormats {
+                    let constraints = NSLayoutConstraint.constraintsWithVisualFormat(c, options:[] , metrics: nil, views: constraintViews)
+                    
+                    allConstraints += constraints
+                    
+                }
+                
+                NSLayoutConstraint.activateConstraints(allConstraints)
+                
+            }
+
         }
         
         for var vvv in vv.subviews {
@@ -263,12 +268,12 @@ extension UIViewController {
     
     func applyStylesAndConstraints(styles: [Styles]) {
         var constraintViews : [String : AnyObject] = [:]
-        constraintViews[self.view.style.first!.lowercaseString] = self.view
-        for var v in self.view.subviews {
+        constraintViews[self.view.subviews.first!.style.first!.lowercaseString] = self.view.subviews.first!
+        for var v in self.view.subviews.first!.subviews {
            constraintViews[v.style.first!.lowercaseString] = v
         }
         
-        apply(self.view, styles: styles, constraintViews: constraintViews)
+        apply(self.view.subviews.first!, styles: styles, constraintViews: constraintViews)
         
        
         

@@ -25,7 +25,7 @@ class AutoLayoutViewController : UIViewController {
             .ALConstraint: [
                 "H:|-0-[container]-0-|",
                 "V:|-0-[container]-0-|",
-                "H:|-5-[title]-5-[subtitle]-5-|",
+                "H:|-5-[title(0@250)]-5-[subtitle]-5-|",
                 "V:|-100-[title]-5-[description]-[subdescription]->=5-|",
                 "V:|-100-[subtitle]->=5-|",
                 "H:|-5-[description]-5-|",
@@ -50,7 +50,7 @@ class AutoLayoutViewController : UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        set(
+        setAL(
             UIView(style: AutoLayoutStyles.Container.rawValue, children: [
                 UILabel(style: AutoLayoutStyles.Title.rawValue, title: "Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text"),
                 UILabel(style: AutoLayoutStyles.SubTitle.rawValue, title: "Sub Title"),

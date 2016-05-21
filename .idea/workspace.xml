@@ -2,12 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6aaad0c7-6870-4004-954c-2f7491ac618d" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/NextUI/AutoLayoutViewController.swift" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/NextUI.xcodeproj/project.pbxproj" afterPath="$PROJECT_DIR$/NextUI.xcodeproj/project.pbxproj" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/NextUI/CATableViewController.swift" afterPath="$PROJECT_DIR$/NextUI/CATableViewController.swift" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/NextUI/DetailViewController.swift" afterPath="$PROJECT_DIR$/NextUI/DetailViewController.swift" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/NextUI/AutoLayoutViewController.swift" afterPath="$PROJECT_DIR$/NextUI/AutoLayoutViewController.swift" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/NextUI/UIKitExtensions.swift" afterPath="$PROJECT_DIR$/NextUI/UIKitExtensions.swift" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/NextUI/ViewController.swift" afterPath="$PROJECT_DIR$/NextUI/ViewController.swift" />
     </list>
     <ignored path="NextUI.iws" />
     <ignored path=".idea/workspace.xml" />
