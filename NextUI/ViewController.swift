@@ -53,7 +53,6 @@ class ViewController: CATableViewController {
         return indexPath.row
     }
     
-   
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         self.navigationController?.pushViewController(DetailViewController(), animated: true)
     }
@@ -69,14 +68,14 @@ class ViewController: CATableViewController {
             //TODO: something better for binding? (see Mapper in Bauradar?)
             realEstateTitleLabel = UILabel()
             realEstateDescriptionLabel = UILabel()
-            
-            
-            add(self.contentView,
-                childView: UIView(style: RealEstateStyles.Container.rawValue, children: [
+                        
+            add(self.contentView, childView:
+                UIView(style: RealEstateStyles.Container.rawValue, children: [
                     UIImageView(style: RealEstateStyles.Image.rawValue, source: "https://upload.wikimedia.org/wikipedia/en/a/aa/Bart_Simpson_200px.png"),
                     UILabel(style: RealEstateStyles.Title.rawValue, title: "Text ", ref: &realEstateTitleLabel!),
                     UILabel(style: RealEstateStyles.Description.rawValue, title: "Description ", ref: &realEstateDescriptionLabel!)
-                    ]))
+                ])
+            )
         }
         
         required init?(coder aDecoder: NSCoder) {
@@ -87,9 +86,6 @@ class ViewController: CATableViewController {
             let realEstate = anyObject!
             realEstateTitleLabel!.text! = "Text \(realEstate)"
             realEstateDescriptionLabel!.text! = "Description \(realEstate)"
-        }
-        
-        
-        
+        }        
     }
 }

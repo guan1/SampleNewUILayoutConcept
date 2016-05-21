@@ -225,9 +225,10 @@ extension UIScrollView {
 extension UIImageView {
     convenience init(style style: String, source: String)
     {
-        let url = NSURL(string: source)
-        let data = NSData(contentsOfURL: url!) //make sure your image in this url does exist, otherwise unwrap in a if let check
-        let image = UIImage(data: data!)
+        //let url = NSURL(string: source)
+        //let data = NSData(contentsOfURL: url!) //make sure your image in this url does exist, otherwise unwrap in a if let check
+        //let image = UIImage(data: data!)
+        let image = UIImage(named: "Bart")
         self.init(image: image)
         self.style = [style]
         self.contentMode = UIViewContentMode.ScaleAspectFit

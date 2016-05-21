@@ -20,13 +20,7 @@ class DetailViewController : UIViewController {
         case Image = "Image"
     }
     
-       
     var styles : Styles = [
-        RealEstateDetailStyles.Container.rawValue: [
-            .BackgroundColor:UIColor.redColor(),
-            .FlexDirection: Direction.Row,
-            .FlexChildAlignment: ChildAlignment.Center,
-        ],
         RealEstateDetailStyles.ScrollView.rawValue: [
             .BackgroundColor:UIColor.greenColor(),
             .FlexDirection: Direction.Column,
@@ -52,21 +46,20 @@ class DetailViewController : UIViewController {
             .BackgroundColor:UIColor.yellowColor(),
             .Height:1,
         ],
-        ]
+    ]
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.translatesAutoresizingMaskIntoConstraints = false
         
         set(
-            UIView(style: RealEstateDetailStyles.Container.rawValue, children: [
-                UIScrollView(style: RealEstateDetailStyles.ScrollView.rawValue, children: [
-                    UIImageView(style: RealEstateDetailStyles.Image.rawValue, source: "https://upload.wikimedia.org/wikipedia/en/a/aa/Bart_Simpson_200px.png"),
-                    UILabel(style: RealEstateDetailStyles.Title.rawValue, title: "Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text"),
-                    UIView(style: RealEstateDetailStyles.Separator.rawValue, height: 1),
-                    UILabel(styles: [RealEstateDetailStyles.Description.rawValue, Base.DescriptionBase.rawValue], title: "Description Description Description Description Description Description Description Description Description Description Description Description Description")
-                    ])
-                ]))
+            UIScrollView(style: RealEstateDetailStyles.ScrollView.rawValue, children: [
+                UIImageView(style: RealEstateDetailStyles.Image.rawValue, source: "https://upload.wikimedia.org/wikipedia/en/a/aa/Bart_Simpson_200px.png"),
+                UILabel(style: RealEstateDetailStyles.Title.rawValue, title: "Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text"),
+                UIView(style: RealEstateDetailStyles.Separator.rawValue, height: 1),
+                UILabel(styles: [RealEstateDetailStyles.Description.rawValue, Base.DescriptionBase.rawValue], title: "Description Description Description Description Description Description Description Description Description Description Description Description Description")
+            ])
+        )
     }
     
     override func viewWillLayoutSubviews() {
