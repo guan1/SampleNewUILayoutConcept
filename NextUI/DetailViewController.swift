@@ -60,6 +60,14 @@ class DetailViewController : UIViewController {
                 UILabel(styles: [RealEstateDetailStyles.Description.rawValue, Base.DescriptionBase.rawValue], title: "Description Description Description Description Description Description Description Description Description Description Description Description Description")
             ])
         )
+        
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(handleTap))
+        self.view.addGestureRecognizer(tap)
+    }
+    
+    func handleTap(sender: UITapGestureRecognizer? = nil) {
+        self.navigationController?.pushViewController(AutoLayoutViewController(), animated: true)
     }
     
     override func viewWillLayoutSubviews() {

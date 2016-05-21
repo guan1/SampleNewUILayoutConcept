@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BCC380D91CF0C9B7007AEF29 /* AutoLayoutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC380D81CF0C9B6007AEF29 /* AutoLayoutViewController.swift */; };
 		BCF8A99D1CEFB0A700428B40 /* Layout.c in Sources */ = {isa = PBXBuildFile; fileRef = BCF8A99B1CEFB0A700428B40 /* Layout.c */; };
 		BCF8A9AA1CEFC09800428B40 /* UIKitExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF8A9A91CEFC09800428B40 /* UIKitExtensions.swift */; };
 		BCF8A9AC1CEFE18400428B40 /* ViewControllerOld.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF8A9AB1CEFE18400428B40 /* ViewControllerOld.swift */; };
@@ -23,6 +24,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		BCC380D81CF0C9B6007AEF29 /* AutoLayoutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutoLayoutViewController.swift; sourceTree = "<group>"; };
 		BCF8A99B1CEFB0A700428B40 /* Layout.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Layout.c; sourceTree = "<group>"; };
 		BCF8A99C1CEFB0A700428B40 /* Layout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Layout.h; sourceTree = "<group>"; };
 		BCF8A9A81CEFB1A000428B40 /* Swift-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "Swift-Bridging-Header.h"; path = "NextUI/Swift-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -82,6 +84,7 @@
 				BF0D797D8A9690DE49603717 /* AppDelegate.swift */,
 				BF0D7BA77B8718A1AB7F94C0 /* ViewController.swift */,
 				BCF8A9AD1CF0630A00428B40 /* DetailViewController.swift */,
+				BCC380D81CF0C9B6007AEF29 /* AutoLayoutViewController.swift */,
 				BF0D7DD9E19AC5F6BDBE36D1 /* SwiftBox */,
 				BCF8A9AB1CEFE18400428B40 /* ViewControllerOld.swift */,
 			);
@@ -187,6 +190,7 @@
 				BF0D75463F921D69BF437D8F /* Layout.swift in Sources */,
 				BCF8A9AA1CEFC09800428B40 /* UIKitExtensions.swift in Sources */,
 				BCF8A99D1CEFB0A700428B40 /* Layout.c in Sources */,
+				BCC380D91CF0C9B7007AEF29 /* AutoLayoutViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

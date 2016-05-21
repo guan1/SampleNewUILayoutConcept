@@ -34,6 +34,8 @@ class StylesCreator {
 }
 
 extension UIViewController {
+    
+    //TODO: separate settings UI styles and setting flex box attributes (as UI styles are also used with AutoLayout -> add LayoutManager)
     func createNode(v: UIView, styles: [Styles]) -> Node? {
         var children : [Node] = []
         
@@ -62,7 +64,7 @@ extension UIViewController {
         }
         
         
-        for var ss in s {
+        for var ss in s.reverse() {
             //multiple styles per UIView element are possible. Order?!?
             var oneStyle = mergedStyles[ss] as! Style!
             
@@ -185,6 +187,93 @@ extension UIViewController {
         self.view = childView
     }
     
+    func apply(vv: UIView, styles: [Styles], constraintViews: [String : AnyObject]) {
+        if vv != self.view {
+            vv.translatesAutoresizingMaskIntoConstraints = false
+        } else {
+            //top view
+            vv.translatesAutoresizingMaskIntoConstraints = true
+        }
+        var style : Style = Style()
+        
+        var mergedStyles = Styles()
+        
+        for var stylesStyle in styles {
+            for key in stylesStyle.keys {
+                mergedStyles[key] = stylesStyle[key]
+            }
+        }
+        
+        
+        for var ss in vv.style {
+            //multiple styles per UIView element are possible. Order?!?
+            var oneStyle = mergedStyles[ss] as! Style!
+            
+            
+            for key in oneStyle.keys {
+                style[key] = oneStyle[key]
+            }
+            //var style : Style = styles[s.first!]!
+        }
+        
+        let bcolor = style[StyleTypes.BackgroundColor] as? UIColor
+        if let bcolor = bcolor {
+            vv.backgroundColor = bcolor
+        } else {
+            vv.backgroundColor = UIColor.clearColor()
+        }
+        
+        var multiline = false
+        if vv.isKindOfClass(UILabel.self) {
+            let l = vv as! UILabel
+            l.textColor = style[StyleTypes.TextColor] as! UIColor
+            
+            if let numberOfLines = style[StyleTypes.NumberOfLines] {
+                l.numberOfLines = numberOfLines as! Int
+            }
+            
+            if let multiline = style[StyleTypes.Multiline] as? Bool {
+                l.numberOfLines = multiline == true ? 0 : 1
+            }
+            
+            if l.numberOfLines == 0 {
+                multiline = true
+            }
+        }
+        
+        if style[StyleTypes.ALConstraint] != nil {
+            let constraintFormats = style[StyleTypes.ALConstraint] as! [String]
+            
+            var allConstraints = [NSLayoutConstraint]()
+            for var c in constraintFormats {
+                let constraints = NSLayoutConstraint.constraintsWithVisualFormat(c, options:.DirectionLeadingToTrailing , metrics: nil, views: constraintViews)
+                
+                allConstraints += constraints
+                
+            }
+            
+            NSLayoutConstraint.activateConstraints(allConstraints)
+            
+        }
+        
+        for var vvv in vv.subviews {
+            apply(vvv, styles: styles, constraintViews:constraintViews)
+        }
+    }
+    
+    func applyStylesAndConstraints(styles: [Styles]) {
+        var constraintViews : [String : AnyObject] = [:]
+        constraintViews[self.view.style.first!.lowercaseString] = self.view
+        for var v in self.view.subviews {
+           constraintViews[v.style.first!.lowercaseString] = v
+        }
+        
+        apply(self.view, styles: styles, constraintViews: constraintViews)
+        
+       
+        
+    }
+    
     func applyLayout(styles: [Styles]) {
         self.view.frame = self.view.window!.frame //default behaviour: root view pins to window. Therefor applyLayout has to be called in viewWillLayoutSubviews ... and not in viewDidLoad
 
@@ -237,6 +326,7 @@ extension UIImageView {
 
 private var xoAssociationKey: UInt8 = 0
 private var xoAssociationKey1: UInt8 = 0
+private var xoAssociationKey2: UInt8 = 0
 
 extension UIView {
     var style: [String]! {
@@ -247,6 +337,17 @@ extension UIView {
             objc_setAssociatedObject(self, &xoAssociationKey, newValue, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN)
         }
     }
+    
+    
+    var alName: String! {
+        get {
+            return objc_getAssociatedObject(self, &xoAssociationKey2) as? String
+        }
+        set(newValue) {
+            objc_setAssociatedObject(self, &xoAssociationKey2, newValue, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN)
+        }
+    }
+
     
     convenience init(style style: String, height: CGFloat = 0)
     {
@@ -262,6 +363,7 @@ extension UIView {
             addSubview(v)
         }
         self.style = [style]
+        
     }
     
     //view.subviews also returns layout guides.
@@ -294,14 +396,16 @@ extension UILabel {
     {
         self.init()
         self.text = title
+        self.alName = style
         self.style = [style]
     }
     
-    convenience init(style style: String, title: String, inout ref: UILabel)
+    convenience init(style style: String, title: String, inout ref: UILabel?)
     {
         self.init()
         self.text = title
         self.style = [style]
+        self.alName = style
         ref = self
     }
     

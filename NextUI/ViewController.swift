@@ -46,16 +46,21 @@ class ViewController: CATableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //we could replace all (important) table view delegates with blocks (or selectors) -> ala react native components? but maybe thats too much 
-        setTableView(200, tableViewCell: RealEstateTableViewCell.self, numberOfRows: 1000, styles: [styles])
-    }
-    
-    override func loadRowData(indexPath: NSIndexPath) -> Any? {
-        return indexPath.row
-    }
-    
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        self.navigationController?.pushViewController(DetailViewController(), animated: true)
+        setStyles([styles, baseStyles])
+        
+        //too much?
+        setTableView(rowHeight: 200,
+                     tableViewCell: RealEstateTableViewCell.self,
+                     numberOfRows: {
+                            return 1000
+                     },
+                     rowSelectionAction: {_ in
+                        self.navigationController?.pushViewController(DetailViewController(), animated: true)
+                     },
+                     retrieveData:  { indexPath in
+                        return indexPath.row
+                     }
+        )
     }
     
     class RealEstateTableViewCell : UITableViewCell, CATableViewCell {
@@ -66,15 +71,11 @@ class ViewController: CATableViewController {
         override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
             super.init(style: style, reuseIdentifier: reuseIdentifier)
             
-            //TODO: something better for binding? (see Mapper in Bauradar?)
-            realEstateTitleLabel = UILabel()
-            realEstateDescriptionLabel = UILabel()
-                        
             add(self.contentView, childView:
                 UIView(style: RealEstateStyles.Container.rawValue, children: [
                     UIImageView(style: RealEstateStyles.Image.rawValue, source: "https://upload.wikimedia.org/wikipedia/en/a/aa/Bart_Simpson_200px.png"),
-                    UILabel(style: RealEstateStyles.Title.rawValue, title: "Text ", ref: &realEstateTitleLabel!),
-                    UILabel(style: RealEstateStyles.Description.rawValue, title: "Description ", ref: &realEstateDescriptionLabel!)
+                    UILabel(style: RealEstateStyles.Title.rawValue, title: "Text ", ref: &realEstateTitleLabel),
+                    UILabel(style: RealEstateStyles.Description.rawValue, title: "Description ", ref: &realEstateDescriptionLabel)
                 ])
             )
         }
